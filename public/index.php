@@ -6,4 +6,4 @@
  * Time: 4:42 PM
  */
 
-echo 'test1234 jrenelf';
+echo 'Welcome to IS601';
