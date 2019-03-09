@@ -9,53 +9,41 @@ main::start("example.csv");
 
 class main
 {
-
     static public function start($filename)
     {
-       $records= csv::getRecords($filename);
-
-
-
-       foreach($records as $record) {
-          $array = $record->returnArray();
-           $keys = array_keys($array);
-          print_r($keys);
-       }
-
-
+        $records = csv::data($filename);
+        $tables = html::generatetable($records);
+        system::printPage($tables);
     }
 }
-
 class csv{
 
-    static public function getRecords($filename) {
-
-
-        $file = fopen($filename, "r");
+    public static function createFile($filename)
+    {
+        $file = fopen($filename,"r");
         $fieldNames = array();
         $count = 0;
-        while (!feof($file)) {
-            $record = (fgetcsv($file));
-             if($count == 0) {
-                 $fieldNames = $record;
-             }
-                 else{
-
-                     $records[] = recordFactory::create($fieldNames, $record);
-                 }
-
-             $count++;
-
+        while(! feof($file))
+        {
+            $record=fgetcsv($file);
+            if($count==0)
+            {
+                $fieldNames = $record;
+                $data[] = recordFactory::create($fieldNames, $fieldNames);
+            }
+            else
+            {
+                $data[] = recordFactory::create($fieldNames,$record);
+            }
+            $count++;
         }
-
         fclose($file);
-        return $records;
-
-
-
+        return $data;
     }
-
 }
+
+
+
 
 class record{
 
